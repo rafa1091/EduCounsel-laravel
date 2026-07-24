@@ -1,4 +1,3 @@
-```html
 @extends('layouts.app')
 
 @section('title', 'Aktivitas Saya')
@@ -40,7 +39,7 @@
     .jdw-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 20px; }
     .jdw-btn-add { background: #1E2A4A; color: #fff; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background .15s; }
     .jdw-btn-add:hover { background: #4F7EF8; }
-    .jdw-btn-add svg { width: 14 height: 14; }
+    .jdw-btn-add svg { width: 14px; height: 14px; }
 
     /* Stat cards */
     .akt-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; margin-top: 24px; }
@@ -140,7 +139,6 @@
                 @foreach($statusList as $val => $label)
                     <form method="POST" action="{{ route('dosen.status.update') }}" style="display:inline;">
                         @csrf
-                        @html
                         @method('PUT')
                         <input type="hidden" name="status" value="{{ $val }}">
                         <button type="submit" class="akt-status-btn {{ $dosenStatus === $val ? 'active-'.$val : '' }}">

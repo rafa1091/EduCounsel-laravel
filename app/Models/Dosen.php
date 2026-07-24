@@ -15,8 +15,9 @@ class Dosen extends Model
     // Daftar kolom yang diizinkan untuk diisi (Mass Assignment)
     protected $fillable = [
         'user_id',
-        'nip',
+        'nidn',
         'nama',
+        'email',
         'ruangan',
         'no_hp',
         'status',
@@ -32,5 +33,9 @@ class Dosen extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+    public function jadwals()
+    {
+        return $this->hasMany(Jadwal::class,'dosen_id');
     }
 }

@@ -9,7 +9,7 @@
     .kp-hero-inner { max-width: 960px; margin: 0 auto; }
     .kp-hero-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #8AAEFB; text-transform: uppercase; margin-bottom: 0.5rem; }
     .kp-hero-title { font-size: 26px; font-weight: 700; color: #fff; margin-bottom: 1.5rem; line-height: 1.35; }
-    .kp-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .kp-stats-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .kp-stat { background: rgba(255,255,255,.07); border: 0.5px solid rgba(255,255,255,.12); border-radius: 12px; padding: 14px 16px; cursor: pointer; transition: background .2s; text-align: left; }
     .kp-stat:hover { background: rgba(255,255,255,.12); }
     .kp-stat.active { background: #4F7EF8; border-color: #4F7EF8; }
@@ -38,9 +38,7 @@
     .kp-card:active { transform: scale(0.99); }
     .kp-card-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
     .accent-green { background: #10B981; }
-    .accent-amber { background: #F59E0B; }
     .accent-red    { background: #EF4444; }
-    .accent-blue  { background: #4F7EF8; }
 
     .kp-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
     .kp-avatar { width: 46px; height: 46px; border-radius: 12px; overflow: hidden; background: #E8EEF8; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 700; color: #4F7EF8; }
@@ -52,14 +50,9 @@
     .kp-badge-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
     .badge-green { background: #ECFDF5; color: #059669; }
     .badge-green .kp-badge-dot { background: #10B981; }
-    .badge-amber { background: #FFFBEB; color: #B45309; }
-    .badge-amber .kp-badge-dot { background: #F59E0B; }
     .badge-red    { background: #FEF2F2; color: #B91C1C; }
     .badge-red .kp-badge-dot    { background: #EF4444; }
-    .badge-blue  { background: #EEF3FE; color: #2B5BD4; }
-    .badge-blue .kp-badge-dot  { background: #4F7EF8; }
 
-    /* Sudah direquest badge */
     .kp-requested-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 6px; background: #F0FDF4; color: #15803D; border: 0.5px solid #BBF7D0; margin-bottom: 8px; margin-left: 6px; }
     .kp-requested-badge svg { width: 10px; height: 10px; }
 
@@ -76,7 +69,6 @@
 
     .kp-empty { grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: #94A3B8; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Modal */
     .kp-modal-overlay { position: fixed; inset: 0; z-index: 60; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; }
     .kp-modal { background: #fff; width: 100%; max-width: 460px; margin: 1rem; padding: 2rem; position: relative; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
     .kp-modal-close { position: absolute; top: 16px; right: 16px; width: 28px; height: 28px; border-radius: 50%; border: none; background: #F4F6FB; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s; color: #64748B; }
@@ -97,11 +89,9 @@
     .kp-submit { width: 100%; height: 44px; background: #1E2A4A; color: #fff; border: none; border-radius: 12px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; font-family: inherit; transition: background .15s; }
     .kp-submit:hover { background: #4F7EF8; }
 
-    /* Toast */
     .kp-toast { position: fixed; top: 20px; right: 20px; z-index: 70; background: #1E2A4A; color: #fff; padding: 12px 20px; border-radius: 12px; font-size: 12px; font-weight: 700; box-shadow: 0 8px 24px rgba(30,42,74,.25); border-left: 3px solid #10B981; display: flex; align-items: center; gap: 8px; }
     .kp-toast svg { width: 14px; height: 14px; color: #10B981; }
 
-    /* Chatbot */
     .chat-fab { position: fixed; bottom: 28px; right: 28px; z-index: 50; width: 48px; height: 48px; background: #1E2A4A; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(30,42,74,.3); transition: transform .2s, background .2s; }
     .chat-fab:hover { background: #4F7EF8; transform: scale(1.08); }
     .chat-fab svg { width: 20px; height: 20px; }
@@ -141,14 +131,6 @@
                 <div class="kp-stat-num" id="statDiRuangan">0</div>
                 <div class="kp-stat-label">Di Ruangan</div>
             </button>
-            <button onclick="setStatFilter(this,'mengajar')" class="kp-stat" id="statBtn-mengajar">
-                <div class="kp-stat-num" id="statMengajar">0</div>
-                <div class="kp-stat-label">Sedang Mengajar</div>
-            </button>
-            <button onclick="setStatFilter(this,'bimbingan')" class="kp-stat" id="statBtn-bimbingan">
-                <div class="kp-stat-num" id="statBimbingan">0</div>
-                <div class="kp-stat-label">Sedang Bimbingan</div>
-            </button>
             <button onclick="setStatFilter(this,'tidak_ada')" class="kp-stat" id="statBtn-tidak_ada">
                 <div class="kp-stat-num" id="statTidakAda">0</div>
                 <div class="kp-stat-label">Tidak Ada</div>
@@ -165,18 +147,18 @@
         <h4 style="font-size: 14px; font-weight: 700; color: #1E2A4A; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px;">
             📌 Status Dosen Pembimbing Kamu
         </h4>
-        
+
         @if($dosenPembimbing)
             <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: #64748B;">
                 <p><strong>Nama Dosen:</strong> <span style="color: #1E2A4A; font-weight: 600;">{{ $dosenPembimbing->nama }}</span></p>
-                <p style="display: flex; align-items: center; gap: 4px;"><strong>Posisi Saat Ini:</strong> 
-                    <span class="kp-badge {{ $dosenPembimbing->status === 'di_ruangan' ? 'badge-green' : ($dosenPembimbing->status === 'mengajar' ? 'badge-amber' : ($dosenPembimbing->status === 'bimbingan' ? 'badge-blue' : 'badge-red')) }}" style="margin-bottom: 0; margin-left: 4px;">
+                <p style="display: flex; align-items: center; gap: 4px;"><strong>Posisi Saat Ini:</strong>
+                    <span class="kp-badge {{ $dosenPembimbing->status === 'di_ruangan' ? 'badge-green' : 'badge-red' }}" style="margin-bottom: 0; margin-left: 4px;">
                         <div class="kp-badge-dot"></div>
-                        {{ ucwords(str_replace('_', ' ', $dosenPembimbing->status)) }}
+                        {{ $dosenPembimbing->status === 'di_ruangan' ? 'Di Ruangan' : 'Tidak Ada' }}
                     </span>
                 </p>
                 <p><strong>Ruangan:</strong> <span style="color: #1E2A4A; font-weight: 500;">{{ $dosenPembimbing->ruangan ?? 'Belum diatur' }}</span></p>
-                
+
                 <div style="margin-top: 4px;">
                     <strong style="display: block; margin-bottom: 4px;">Catatan Dosen:</strong>
                     <div style="font-style: italic; background: #F8FAFC; border-radius: 8px; padding: 10px 12px; border-left: 3px solid #4F7EF8; color: #475569; font-size: 12px; line-height: 1.5;">
@@ -201,8 +183,6 @@
             <button onclick="setFilter(this,'semua')"       class="kp-chip active filter-btn">Semua</button>
             <button onclick="setFilter(this,'di_ruangan')"  class="kp-chip filter-btn">Di Ruangan</button>
             <button onclick="setFilter(this,'tidak_ada')"   class="kp-chip filter-btn">Tidak Ada</button>
-            <button onclick="setFilter(this,'mengajar')"    class="kp-chip filter-btn">Mengajar</button>
-            <button onclick="setFilter(this,'bimbingan')"   class="kp-chip filter-btn">Bimbingan</button>
         </div>
     </div>
     <div class="kp-grid" id="dosenGrid"></div>
@@ -295,64 +275,264 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
-// ── DATA DOSEN dari Laravel ──
-const rawData = @json($dosens ?? []);
+    // ── DATA DOSEN dari Laravel ──
+    const rawData = @json($dosens ?? []);
 
-const dosenData = rawData.map(d => ({
-    id:      d.id,
-    nama:    d.nama,
-    status:  d.status,
-    ruangan: d.ruangan, // Menggunakan field text biasa
-    no_hp:   d.no_hp,
-    foto:    d.foto,
-    catatan: d.catatan,
-}));
+    const dosenData = rawData.map(d => ({
+        id:      d.id,
+        nama:    d.nama,
+        status:  d.status,
+        ruangan: d.ruangan,
+        no_hp:   d.no_hp,
+        foto:    d.foto,
+        catatan: d.catatan,
+    }));
 
-// Ambil daftar dosen_id yang sudah pernah di-request (pending)
-const requestedDosenIds = @json(
-    \App\Models\Bimbingan::where('user_id', Auth::id())
-        ->where('status', 'pending')
-        ->pluck('dosen_id')
-);
+    const requestedDosenIds = @json(
+        \App\Models\Bimbingan::where('user_id', Auth::id())
+            ->where('status', 'pending')
+            ->pluck('dosen_id')
+    );
 
-let currentDosen  = null;
-let currentFilter = 'semua';
+    let currentDosen  = null;
+    let currentFilter = 'semua';
+    let chatHistory   = [];
 
-const statusConfig = {
-    'di_ruangan': { badge:'badge-green', accent:'accent-green', label:'Di Ruangan'       },
-    'mengajar':   { badge:'badge-amber', accent:'accent-amber', label:'Sedang Mengajar'  },
-    'bimbingan':  { badge:'badge-blue',  accent:'accent-blue',  label:'Sedang Bimbingan' },
-    'tidak_ada':  { badge:'badge-red',   accent:'accent-red',   label:'Tidak Ada'        },
-};
+    const statusConfig = {
+        'di_ruangan': { badge:'badge-green', accent:'accent-green', label:'Di Ruangan' },
+        'tidak_ada':  { badge:'badge-red',   accent:'accent-red',   label:'Tidak Ada'  },
+    };
 
-function renderCards(list) {
-    const grid = document.getElementById('dosenGrid');
-    if (!list.length) {
-        grid.innerHTML = '<div class="kp-empty">Tidak ada dosen ditemukan</div>';
-        return;
+    // ══════════════ HITUNG STATS ══════════════
+    function updateStats() {
+        const diRuangan = dosenData.filter(d => d.status === 'di_ruangan').length;
+        const tidakAda  = dosenData.filter(d => d.status === 'tidak_ada').length;
+        document.getElementById('statDiRuangan').textContent = diRuangan;
+        document.getElementById('statTidakAda').textContent  = tidakAda;
     }
-    grid.innerHTML = list.map(d => {
-        const s          = statusConfig[d.status] || statusConfig['tidak_ada'];
-        const initials   = d.nama.split(' ').slice(0,2).map(w => w[0].toUpperCase()).join('');
-        const avatarHtml = d.foto
-            ? '<img src="/storage/' + d.foto + '" alt="' + d.nama + '">'
-            : '<span>' + initials + '</span>';
-        const telpHtml   = d.no_hp
-            ? '<div class="kp-card-row"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>' + d.no_hp + '</div>'
-            : '';
-        const ruanganHtml = d.ruangan
-            ? '<div class="kp-card-row"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' + d.ruangan + '</div>'
-            : '';
-        const catatanHtml = d.catatan
-            ? '<div class="kp-card-note">"' + d.catatan + '"</div>'
-            : '';
 
-        const isRequested = requestedDosenIds.includes(d.id);
-        const requestedBadge = isRequested
-            ? '<span class="kp-requested-badge"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sudah direquest</span>'
-            : '';
-        const btnClass = isRequested ? 'kp-btn requested' : 'kp-btn';
-        const btnIcon  = isRequested
-            ? '<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'
-            : '<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+    // ══════════════ RENDER KARTU DOSEN ══════════════
+    function renderCards(list) {
+        const grid = document.getElementById('dosenGrid');
+        if (!list.length) {
+            grid.innerHTML = '<div class="kp-empty">Tidak ada dosen ditemukan</div>';
+            return;
+        }
+        grid.innerHTML = list.map(d => {
+            const s          = statusConfig[d.status] || statusConfig['tidak_ada'];
+            const initials   = d.nama.split(' ').slice(0,2).map(w => w[0].toUpperCase()).join('');
+            const avatarHtml = d.foto
+                ? '<img src="/storage/' + d.foto + '" alt="' + d.nama + '">'
+                : '<span>' + initials + '</span>';
+            const telpHtml   = d.no_hp
+                ? '<div class="kp-card-row"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.22 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.66-.66a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/></svg>' + d.no_hp + '</div>'
+                : '';
+            const ruanganHtml = d.ruangan
+                ? '<div class="kp-card-row"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' + d.ruangan + '</div>'
+                : '';
+            const catatanHtml = d.catatan
+                ? '<div class="kp-card-note">"' + d.catatan + '"</div>'
+                : '';
+
+            const isRequested = requestedDosenIds.includes(d.id);
+            const requestedBadge = isRequested
+                ? '<span class="kp-requested-badge"><svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Sudah direquest</span>'
+                : '';
+            const btnClass = isRequested ? 'kp-btn requested' : 'kp-btn';
+            const btnIcon  = isRequested
+                ? '<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>'
+                : '<svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+
+            return `
+                <div class="kp-card ${s.accent}">
+                    ${requestedBadge}
+                    <div class="kp-card-top">
+                        <div class="kp-avatar">${avatarHtml}</div>
+                        <div>
+                            <div class="kp-card-role">Dosen</div>
+                            <div class="kp-card-name">${d.nama}</div>
+                        </div>
+                    </div>
+                    <div class="kp-badge ${s.badge}">
+                        <span class="kp-badge-dot"></span>${s.label}
+                    </div>
+                    <div class="kp-card-info">
+                        ${ruanganHtml}
+                        ${telpHtml}
+                        ${catatanHtml}
+                    </div>
+                    <button class="${btnClass}" onclick="openModal(${d.id})" ${isRequested ? 'disabled' : ''}>
+                        ${btnIcon} ${isRequested ? 'Requested' : 'Request Bimbingan'}
+                    </button>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // ══════════════ FILTER & SEARCH ══════════════
+    function setFilter(btn, filterValue) {
+        currentFilter = filterValue;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilters();
+    }
+
+    function setStatFilter(btn, statValue) {
+        document.querySelectorAll('.kp-stat').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = statValue;
+        applyFilters();
+    }
+
+    function applyFilters() {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        let filtered = dosenData;
+
+        if (currentFilter !== 'semua') {
+            filtered = filtered.filter(d => d.status === currentFilter);
+        }
+        if (searchTerm) {
+            filtered = filtered.filter(d =>
+                d.nama.toLowerCase().includes(searchTerm) ||
+                (d.ruangan || '').toLowerCase().includes(searchTerm)
+            );
+        }
+        renderCards(filtered);
+    }
+
+    // ══════════════ MODAL REQUEST BIMBINGAN ══════════════
+    function openModal(dosenId) {
+        currentDosen = dosenData.find(d => d.id === dosenId);
+        if (!currentDosen) return;
+
+        document.getElementById('modalDosenName').textContent = currentDosen.nama;
+        document.getElementById('modalAlreadyRequested').style.display =
+            requestedDosenIds.includes(dosenId) ? 'block' : 'none';
+        document.getElementById('modalError').style.display = 'none';
+        document.getElementById('inputTanggal').value = '';
+        document.getElementById('inputJam').value = '';
+        document.getElementById('inputTopik').value = '';
+        document.getElementById('inputCatatan').value = '';
+        document.getElementById('modalOverlay').style.display = 'flex';
+    }
+
+    function closeModal() {
+        document.getElementById('modalOverlay').style.display = 'none';
+    }
+
+    async function submitRequest() {
+        const tanggal = document.getElementById('inputTanggal').value;
+        const jam     = document.getElementById('inputJam').value;
+        const topik   = document.getElementById('inputTopik').value.trim();
+        const catatan = document.getElementById('inputCatatan').value.trim();
+        const errorBox = document.getElementById('modalError');
+
+        if (!tanggal || !jam || !topik) {
+            errorBox.textContent = 'Tanggal, jam, dan topik wajib diisi.';
+            errorBox.style.display = 'block';
+            return;
+        }
+
+        try {
+            await axios.post('/bimbingan/request', {
+                dosen_id: currentDosen.id,
+                tanggal: tanggal,
+                jam: jam,
+                topik: topik,
+                catatan: catatan,
+            });
+
+            closeModal();
+            showToast('Request bimbingan berhasil dikirim!');
+            requestedDosenIds.push(currentDosen.id);
+            applyFilters();
+
+        } catch (error) {
+            errorBox.textContent = error.response?.data?.message || 'Gagal mengirim request. Coba lagi.';
+            errorBox.style.display = 'block';
+            console.error('Submit request error:', error);
+        }
+    }
+
+    // ══════════════ TOAST ══════════════
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = message;
+        toast.style.display = 'flex';
+        setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    }
+
+    // ══════════════ CHATBOT ══════════════
+    function toggleChat() {
+        const win = document.getElementById('chatWindow');
+        win.style.display = (win.style.display === 'none' || win.style.display === '') ? 'flex' : 'none';
+    }
+
+    function sendQuickChat(text) {
+        document.getElementById('chatInput').value = text;
+        sendChat();
+    }
+
+    async function sendChat() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        if (!message) return;
+
+        const messagesBox = document.getElementById('chatMessages');
+        const emptyState = document.getElementById('chatEmptyState');
+        if (emptyState) emptyState.remove();
+
+        const userBubble = document.createElement('div');
+        userBubble.className = 'msg-user';
+        userBubble.textContent = message;
+        messagesBox.appendChild(userBubble);
+
+        input.value = '';
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+
+        const typingBubble = document.createElement('div');
+        typingBubble.className = 'msg-bot msg-typing';
+        typingBubble.textContent = 'Mengetik...';
+        messagesBox.appendChild(typingBubble);
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+
+        try {
+            const response = await axios.post('/chat', {
+                message: message,
+                history: chatHistory
+            });
+
+            typingBubble.remove();
+
+            const botBubble = document.createElement('div');
+            botBubble.className = 'msg-bot';
+            botBubble.textContent = response.data.reply;
+            messagesBox.appendChild(botBubble);
+
+            chatHistory.push({ role: 'user', text: message });
+            chatHistory.push({ role: 'assistant', text: response.data.reply });
+
+        } catch (error) {
+            typingBubble.remove();
+            const errBubble = document.createElement('div');
+            errBubble.className = 'msg-bot';
+            errBubble.textContent = 'Maaf, terjadi kesalahan. Coba lagi.';
+            messagesBox.appendChild(errBubble);
+            console.error('Chat error:', error);
+        }
+
+        messagesBox.scrollTop = messagesBox.scrollHeight;
+    }
+
+    // ══════════════ INIT ══════════════
+    document.addEventListener("DOMContentLoaded", function() {
+        updateStats();
+        renderCards(dosenData);
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+    });
+</script>
+@endpush
+
+@endsection

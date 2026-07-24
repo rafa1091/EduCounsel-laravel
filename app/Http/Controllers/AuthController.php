@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB; // <-- 1. Tadi kurang titik koma (;) di sini
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
     public function showLogin() {
-        return view('auth.login'); 
+        return view('auth.login');
     }
 
     public function login(Request $request) {
@@ -45,31 +45,57 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'nim' => 'required', 
+            'nim' => 'required',
             'no_hp' => 'required',
-            'role' => 'nullable|string', 
+            'role' => 'nullable|string',
         ]);
 
-        $userId = DB::table('users')->insertGetId([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'nim/nidn' => $request->nim,   
-            'no_hp' => $request->no_hp,     
-            'role' => $request->role ?? 'mahasiswa', 
-            'created_at' => now(),
-            'updated_at' => now(),
+            'nim' => $request->nim,
+            'no_hp' => $request->no_hp,
+            'role' => $request->role ?? 'mahasiswa',
         ]);
 
-        $user = User::find($userId);
-        
         Auth::login($user);
 
-        return redirect('/');
-    } // <-- 2. Tadi kurung kurawal penutup fungsi register() ini ketinggalan!
+        return redirect()->route('dashboard');
+    }
 
-    public function logout() {
+    public function logout(Request $request)
+    {
         Auth::logout();
-        return redirect('/login');
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/login'); // <-- diubah dari '/'
+    }
+
+    public function editPassword()
+    {
+        return view('account.password');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        if (!Hash::check($request->current_password, auth()->user()->password)) {
+            return back()->withErrors([
+                'current_password' => 'Password lama salah.'
+            ], 'updatePassword'); // <-- ditambahin error bag 'updatePassword'
+        }
+
+        auth()->user()->update([
+            'password' => Hash::make($request->password)
+        ]);
+
+        return back()->with('success', 'Password berhasil diperbarui.');
     }
 }

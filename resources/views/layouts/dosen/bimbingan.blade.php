@@ -31,7 +31,7 @@
     .bim-input-balasan:focus { border-color: #4F7EF8; }
     
     .bim-btn-group { display: flex; gap: 8px; }
-    .bim-btn { font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; text-transform: uppercase; letter-spacing: 0.5px; transition: opacity 0.15s; }
+    .bim-btn { font-size: 11px; font-weight: 700; padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer; font-family: inherit; text-transform: uppercase; letter-spacing: 0.5px; transition: opacity 0.15s; display: inline-flex; align-items: center; gap: 6px; }
     .bim-btn:hover { opacity: 0.9; }
     .btn-approve { background: #10B981; color: #fff; }
     .btn-reject { background: #EF4444; color: #fff; }
@@ -57,8 +57,8 @@
                 <div>
                     <div class="bim-mhs-name">{{ $b->user->name ?? 'Mahasiswa Kelompok / Personal' }}</div>
                     <div class="bim-meta">
-                        <span>📅 {{ \Carbon\Carbon::parse($b->tanggal)->format('d M Y') }}</span>
-                        <span>⏰ {{ substr($b->jam, 0, 5) }} WIB</span>
+                        <span><i class="fa-regular fa-calendar"></i> {{ \Carbon\Carbon::parse($b->tanggal)->format('d M Y') }}</span>
+                        <span><i class="fa-regular fa-clock"></i> {{ substr($b->jam, 0, 5) }} WIB</span>
                     </div>
                 </div>
                 <span class="bim-status-badge badge-{{ $b->status }}">
@@ -78,7 +78,7 @@
                 @if($b->status !== 'pending')
                     <div style="margin-top: 12px; padding-top: 12px; border-top: 1px dashed #E2E8F0;">
                         <strong>Respons Anda:</strong>
-                        <p style="margin: 4px 0 0 0; font-style: italic; color: #475569;">"{{ $b->balasan ?? '-' }}"</p>
+                       <p style="margin: 4px 0 0 0; font-style: italic; color: #475569;">"{{ $b->catatan_dosen ?? '-' }}"</p>
                     </div>
                 @endif
             </div>
@@ -94,8 +94,8 @@
                         <input type="text" name="balasan" placeholder="Contoh: Ke ruangan lab IoT lantai 2 ya..." class="bim-input-balasan">
                         
                         <div class="bim-btn-group">
-                            <button type="button" class="bim-btn btn-approve" onclick="submitAksi({{ $b->id }}, 'approve')"> Setujui</button>
-                            <button type="button" class="bim-btn btn-reject" onclick="submitAksi({{ $b->id }}, 'reject')"> Tolak</button>
+                            <button type="button" class="bim-btn btn-approve" onclick="submitAksi({{ $b->id }}, 'approve')"><i class="fa-solid fa-check"></i> Setujui</button>
+                            <button type="button" class="bim-btn btn-reject" onclick="submitAksi({{ $b->id }}, 'reject')"><i class="fa-solid fa-xmark"></i> Tolak</button>
                         </div>
                     </form>
                 </div>

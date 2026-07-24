@@ -28,6 +28,85 @@
     .kp-logout:hover { background: rgba(239,68,68,.2); border-color: rgba(239,68,68,.3); }
     .kp-logout svg { width: 15px; height: 15px; color: #8A9BBF; }
     .kp-logout:hover svg { color: #FCA5A5; }
+
+    /* Dropdown User */
+.kp-user-menu {
+    position: relative;
+}
+
+.kp-user-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.kp-dropdown {
+    position: absolute;
+    top: 48px;
+    right: 0;
+    width: 200px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.15);
+    overflow: hidden;
+    display: none;
+    z-index: 999;
+}
+
+.kp-dropdown.show {
+    display: block;
+}
+
+.kp-dropdown a,
+.kp-dropdown button {
+    width: 100%;
+    border: none;
+    background: none;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: #334155;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.kp-dropdown a:hover,
+.kp-dropdown button:hover {
+    background: #F1F5F9;
+}
+
+.kp-dropdown hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid #E2E8F0;
+}
+
+.profile-menu { position: relative; }
+.profile-menu button#menuBtn {
+    background: rgba(255,255,255,.07);
+    border: 0.5px solid rgba(255,255,255,.12);
+    width: 32px; height: 32px; border-radius: 8px;
+    color: #8A9BBF; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+.profile-menu button#menuBtn:hover { background: rgba(255,255,255,.15); color: #fff; }
+.dropdown {
+    display: none;
+    position: absolute; top: 42px; right: 0;
+    width: 180px; background: #fff; border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,.15);
+    overflow: hidden; z-index: 999;
+}
+.dropdown.show { display: block; }
+.dropdown a, .dropdown button {
+    width: 100%; border: none; background: none;
+    padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+    text-decoration: none; color: #334155; font-size: 14px; cursor: pointer;
+}
+.dropdown a:hover, .dropdown button:hover { background: #F1F5F9; }
 </style>
 
 <nav class="kp-nav">
@@ -102,34 +181,55 @@
 
     {{-- User + Logout --}}
     <div class="kp-user">
-        <div class="kp-user-info">
-            <div class="kp-user-label">{{ Auth::user()->role === 'dosen' ? 'Dosen' : 'Mahasiswa' }}</div>
-            <div class="kp-user-name">{{ Auth::user()->name ?? 'Guest' }}</div>
-        </div>
-        
-        {{-- 🌟 LOGIKA FITUR AVATAR DINAMIS --}}
-        <div class="kp-avatar-sm">
-            @php
-                $dosenLogin = null;
-                if(Auth::user()->role === 'dosen') {
-                    $dosenLogin = \App\Models\Dosen::where('user_id', Auth::id())->first();
-                }
-            @endphp
-
-            @if($dosenLogin && $dosenLogin->foto)
-                <img src="{{ asset('storage/' . $dosenLogin->foto) }}" alt="PP">
-            @else
-                {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 2)) }}
-            @endif
-        </div>
-
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="kp-logout" title="Logout">
-                <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                    <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                </svg>
-            </button>
-        </form>
+    <div class="kp-user-info">
+        <div class="kp-user-label">{{ Auth::user()->role === 'dosen' ? 'Dosen' : 'Mahasiswa' }}</div>
+        <div class="kp-user-name">{{ Auth::user()->name ?? 'Guest' }}</div>
     </div>
+
+    <div class="kp-avatar-sm">
+        @php
+            $dosenLogin = null;
+            if(Auth::user()->role === 'dosen') {
+                $dosenLogin = \App\Models\Dosen::where('user_id', Auth::id())->first();
+            }
+        @endphp
+
+        @if($dosenLogin && $dosenLogin->foto)
+            <img src="{{ asset('storage/' . $dosenLogin->foto) }}" alt="PP">
+        @else
+            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 2)) }}
+        @endif
+    </div>
+
+    {{-- 🌟 DROPDOWN PROFILE MENU --}}
+    <div class="profile-menu">
+        <button id="menuBtn">
+            <i class="fa-solid fa-ellipsis-vertical"></i>
+        </button>
+        <div id="dropdownMenu" class="dropdown">
+            @if(Auth::user()->role === 'dosen')
+                <a href="{{ route('password.edit') }}">
+                    <i class="fa-solid fa-gear"></i>
+                    Settings
+                </a>
+            @endif
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('menuBtn')?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('dropdownMenu').classList.toggle('show');
+    });
+    document.addEventListener('click', function() {
+        document.getElementById('dropdownMenu')?.classList.remove('show');
+    });
+</script>
 </nav>

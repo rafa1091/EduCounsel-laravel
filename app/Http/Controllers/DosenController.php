@@ -21,14 +21,12 @@ class DosenController extends Controller
     {
         $dosen = $this->getDosen();
 
-        // 🌟 Kita hitung data statistik biar tidak error undefined variable
         $statistik = [
             'pending'  => \App\Models\Bimbingan::where('dosen_id', $dosen->id)->where('status', 'pending')->count(),
             'diterima' => \App\Models\Bimbingan::where('dosen_id', $dosen->id)->where('status', 'approved')->count(),
             'total'    => \App\Models\Bimbingan::where('dosen_id', $dosen->id)->count(),
         ];
 
-        // RENDER STRING CODE DENGAN BLADE ASLI KAMU (Sudah Dipangkas sisa 2 status)
         $html = <<<'HTML'
         @extends('layouts.app')
 
@@ -48,7 +46,6 @@ class DosenController extends Controller
             .ds-hero-name  { font-size: 26px; font-weight: 700; color: #fff; line-height: 1.3; margin-bottom: 4px; }
             .ds-hero-sub    { font-size: 13px; color: rgba(255,255,255,.45); margin-bottom: 1.5rem; }
 
-            /* Status badge di hero */
             .ds-status-pill {
                 display: inline-flex; align-items: center; gap: 6px;
                 padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 700;
@@ -68,7 +65,6 @@ class DosenController extends Controller
             }
             .ds-card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #94A3B8; margin-bottom: 16px; }
 
-            /* Status pilihan (Set 2 kolom biar rapi) */
             .ds-status-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
 
             .ds-status-card {
@@ -81,7 +77,6 @@ class DosenController extends Controller
             .ds-status-card .dot { width: 8px; height: 8px; border-radius: 50%; margin: 0 auto 8px; }
             .ds-status-card .label { font-size: 12px; font-weight: 600; }
 
-            /* Textarea catatan */
             .ds-textarea {
                 width: 100%; border: 0.5px solid #E2E8F0; border-radius: 10px;
                 padding: 10px 14px; font-size: 13px; font-family: inherit;
@@ -91,7 +86,6 @@ class DosenController extends Controller
             .ds-textarea:focus { border-color: #4F7EF8; }
             .ds-textarea::placeholder { color: #94A3B8; }
 
-            /* Input profil */
             .ds-input-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #94A3B8; margin-bottom: 6px; display: block; }
             .ds-input {
                 width: 100%; height: 40px; border: 0.5px solid #E2E8F0; border-radius: 10px;
@@ -115,22 +109,18 @@ class DosenController extends Controller
             }
             .ds-btn-outline:hover { background: #EEF3FE; border-color: #4F7EF8; color: #4F7EF8; }
 
-            /* Divider */
             .ds-divider { border: none; border-top: 0.5px solid #F1F5F9; margin: 18px 0; }
 
-            /* Statistik */
             .ds-stats { display: flex; text-align: center; }
             .ds-stat-item { flex: 1; }
             .ds-stat-item + .ds-stat-item { border-left: 0.5px solid #F1F5F9; }
             .ds-stat-num   { font-size: 24px; font-weight: 800; color: #1E2A4A; }
             .ds-stat-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #94A3B8; margin-top: 2px; }
 
-            /* Alert */
             .ds-alert { padding: 10px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
             .ds-alert-success { background: #ECFDF5; color: #059669; border: 0.5px solid #A7F3D0; }
             .ds-alert-error   { background: #FEF2F2; color: #B91C1C; border: 0.5px solid #FECACA; }
 
-            /* Foto preview */
             .ds-foto-preview { width: 100%; height: 80px; object-fit: cover; border-radius: 10px; border: 0.5px solid #E2E8F0; margin-bottom: 8px; }
             .ds-file-input { width: 100%; font-size: 12px; color: #64748B; }
         </style>
@@ -147,13 +137,12 @@ class DosenController extends Controller
                         'di_ruangan' => ['dot' => '#10B981', 'label' => 'Di Ruangan'],
                         'tidak_ada'  => ['dot' => '#EF4444', 'label' => 'Tidak Ada'],
                     ];
-                    
-                    // Jika status lama bawaan db bukan salah satu dari 2 ini, arahkan ke tidak_ada
+
                     $currentStatus = $dosen->status ?? 'tidak_ada';
                     if (!array_key_exists($currentStatus, $statusPill)) {
                         $currentStatus = 'tidak_ada';
                     }
-                    
+
                     $pill = $statusPill[$currentStatus];
                 @endphp
                 <div class="ds-status-pill">
@@ -297,11 +286,9 @@ class DosenController extends Controller
                 ->with('error','Data dosen tidak ditemukan.');
         }
 
-        // 🌟 PERBAIKAN FILTER: Menggunakan Auth::id() agar sesuai dengan foreign key di database
+        // ✅ dosen_id di tabel jadwals adalah FK ke users.id, jadi pakai Auth::id()
         $jadwal = Jadwal::where('dosen_id', Auth::id())
-            ->orderByRaw(
-                "FIELD(hari,'Senin','Selasa','Rabu','Kamis','Jumat')"
-            )
+            ->orderByRaw("FIELD(hari,'Senin','Selasa','Rabu','Kamis','Jumat')")
             ->orderBy('mulai')
             ->get()
             ->toArray();
@@ -333,7 +320,6 @@ class DosenController extends Controller
 
         $dosenStatus = $dosen->status;
 
-        // TRIK DARURAT: Lewatin finder Laravel, langsung render string HTML-nya!
         $html = <<<'HTML'
         @extends('layouts.app')
         @section('title', 'Aktivitas Saya')
@@ -411,12 +397,11 @@ class DosenController extends Controller
                 </form>
             </div>
 
-            {{-- 🌟 PERBAIKAN GRID MINGGUAN: Dibuat dinamis agar data jadwal langsung muncul otomatis --}}
             <div class="jdw-week-grid">
                 @foreach(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'] as $hari)
                 <div class="jdw-day-col">
                     <div class="jdw-day-header">{{ $hari }}</div>
-                    
+
                     @php
                         $jadwalHariIni = array_filter($jadwal, function($j) use ($hari) {
                             return $j['hari'] === $hari;
@@ -450,6 +435,57 @@ class DosenController extends Controller
                 <div class="akt-stat"><div class="akt-stat-num">{{ $totalRejected }}</div><div class="akt-stat-label">Ditolak</div></div>
             </div>
         </div>
+
+        <script>
+
+        function refreshStatus() {
+
+            fetch('/api/dosen/status')
+                .then(res => res.json())
+                .then(data => {
+
+                    const dosen = data.find(d => d.ruangan == '704');
+
+                    if (!dosen) return;
+
+                    const heroBadge = document.querySelector('.ds-status-pill');
+
+                    if (dosen.status === 'di_ruangan') {
+
+                        heroBadge.innerHTML =
+                            '<span class="ds-status-dot" style="background:#10B981"></span>Di Ruangan';
+
+                        document
+                            .getElementById('card-di_ruangan')
+                            .classList.add('active');
+
+                        document
+                            .getElementById('card-tidak_ada')
+                            .classList.remove('active');
+
+                    } else {
+
+                        heroBadge.innerHTML =
+                            '<span class="ds-status-dot" style="background:#EF4444"></span>Tidak Ada';
+
+                        document
+                            .getElementById('card-di_ruangan')
+                            .classList.remove('active');
+
+                        document
+                            .getElementById('card-tidak_ada')
+                            .classList.add('active');
+
+                    }
+
+                });
+
+        }
+
+        setInterval(refreshStatus, 3000);
+
+        </script>
+
         @endsection
         HTML;
 
@@ -471,13 +507,12 @@ class DosenController extends Controller
         $dosen = $this->getDosen();
 
         if(!$dosen){
-            return redirect()->back()
-            ->with('error','Data dosen tidak ditemukan.');
+            return redirect()->back()->with('error','Data dosen tidak ditemukan.');
         }
 
-        // 🌟 PERBAIKAN RELASI: Gunakan Auth::id() agar datanya singkron dengan database users
+        // ✅ dosen_id FK ke users.id
         Jadwal::create([
-            'dosen_id'    => Auth::id(), 
+            'dosen_id'    => Auth::id(),
             'hari'        => $request->hari,
             'mulai'       => $request->mulai,
             'selesai'     => $request->selesai,
@@ -485,17 +520,15 @@ class DosenController extends Controller
             'matakuliah'  => $request->matakuliah
         ]);
 
-        return redirect()
-            ->route('dosen.jadwal')
-            ->with('success','Jadwal berhasil ditambahkan.');
+        return redirect()->route('dosen.jadwal')->with('success','Jadwal berhasil ditambahkan.');
     }
 
+    // ✅ DITAMBAHKAN KEMBALI — method ini hilang di file yang kamu kirim
     public function destroyJadwal($id)
     {
-        $dosen = $this->getDosen();
         $jadwal = Jadwal::findOrFail($id);
 
-        if($jadwal->dosen_id != Auth::id()){
+        if ($jadwal->dosen_id != Auth::id()) {
             abort(403);
         }
 
@@ -507,96 +540,80 @@ class DosenController extends Controller
     }
 
     // ================= BIMBINGAN =================
-   // ── BIMBINGAN ──
-public function bimbingan(Request $request)
-{
-    $dosen = $this->getDosen();
+    public function bimbingan(Request $request)
+    {
+        $dosen = $this->getDosen();
 
-    if (!$dosen) {
-        return redirect()->back()
-            ->with('error', 'Data dosen tidak ditemukan.');
+        if (!$dosen) {
+            return redirect()->back()
+                ->with('error', 'Data dosen tidak ditemukan.');
+        }
+
+        $status = strtoupper($request->get('status', 'SEMUA'));
+
+        $query = Bimbingan::with('user')
+            ->where('dosen_id', $dosen->id)
+            ->latest();
+
+        if ($status !== 'SEMUA') {
+            $query->where('status', strtolower($status));
+        }
+
+        $bimbingans = $query->get();
+
+        return view('layouts.dosen.bimbingan', compact(
+            'bimbingans',
+            'status'
+        ));
     }
 
+    // ── APPROVE BIMBINGAN ──
+    public function approve(Request $request, $id)
+    {
+        $request->validate([
+            'balasan' => 'nullable|string'
+        ]);
 
-    $status = strtoupper($request->get('status', 'SEMUA'));
+        $dosen = $this->getDosen();
 
+        Bimbingan::where('id', $id)
+            ->where('dosen_id', $dosen->id)
+            ->firstOrFail()
+            ->update([
+                'status' => 'approved',
+                'catatan_dosen' => $request->balasan
+            ]);
 
-    $query = Bimbingan::with('user')
-        ->where('dosen_id', $dosen->id)
-        ->latest();
-
-
-    if ($status !== 'SEMUA') {
-        $query->where('status', strtolower($status));
+        return redirect()
+            ->route('dosen.bimbingan')
+            ->with('success','Bimbingan berhasil disetujui.');
     }
 
-
-    $bimbingans = $query->get();
-
-
-    return view('layouts.dosen.bimbingan', compact(
-        'bimbingans',
-        'status'
-    ));
-}
-
-
-
-// ── APPROVE BIMBINGAN ──
-public function approve(Request $request, $id)
-{
-    $request->validate([
-        'balasan' => 'nullable|string'
-    ]);
-
-
-    $dosen = $this->getDosen();
-
-
-    Bimbingan::where('id', $id)
-        ->where('dosen_id', $dosen->id)
-        ->firstOrFail()
-        ->update([
-            'status' => 'approved',
-            'catatan_dosen' => $request->balasan
+    // ── REJECT BIMBINGAN ──
+    public function reject(Request $request, $id)
+    {
+        $request->validate([
+            'balasan' => 'required|string'
         ]);
 
+        $dosen = $this->getDosen();
 
-    return redirect()
-        ->route('dosen.bimbingan')
-        ->with('success','Bimbingan berhasil disetujui.');
-}
+        Bimbingan::where('id',$id)
+            ->where('dosen_id',$dosen->id)
+            ->firstOrFail()
+            ->update([
+                'status'=>'rejected',
+                'catatan_dosen'=>$request->balasan
+            ]);
 
+        return redirect()
+            ->route('dosen.bimbingan')
+            ->with('success','Bimbingan berhasil ditolak.');
+    }
 
-
-// ── REJECT BIMBINGAN ──
-public function reject(Request $request, $id)
-{
-    $request->validate([
-        'balasan' => 'required|string'
-    ]);
-
-
-    $dosen = $this->getDosen();
-
-
-    Bimbingan::where('id',$id)
-        ->where('dosen_id',$dosen->id)
-        ->firstOrFail()
-        ->update([
-            'status'=>'rejected',
-            'catatan_dosen'=>$request->balasan
-        ]);
-
-
-    return redirect()
-        ->route('dosen.bimbingan')
-        ->with('success','Bimbingan berhasil ditolak.');
-}
     // ================= STATUS =================
     public function updateStatus(Request $request)
     {
-        // 🛠 PERBAIKAN VALIDASI: Batasi pilihan status hanya sesuai opsi di Blade ('di_ruangan', 'tidak_ada')
         $request->validate([
             'status' => 'required|in:di_ruangan,tidak_ada',
             'catatan' => 'nullable|string'
@@ -610,7 +627,7 @@ public function reject(Request $request, $id)
 
         $dosen->update([
             'status' => $request->status,
-            'catatan' => $request->catatan // Menyimpan catatan opsional dari form dashboard
+            'catatan' => $request->catatan
         ]);
 
         return redirect()->route('dosen.dashboard')->with('success', 'Status keberadaan berhasil diperbarui.');
@@ -619,32 +636,47 @@ public function reject(Request $request, $id)
     public function updateProfil(Request $request)
     {
         $request->validate([
-            'ruangan' => 'nullable|string|max:50',
-            'no_hp' => 'nullable|string|max:20',
-            'foto_profil' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'ruangan'      => 'nullable|string|max:50',
+            'no_hp'        => 'nullable|string|max:20',
+            'foto_profil'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $dosen = $this->getDosen();
 
         if (!$dosen) {
-            return back()->with('error','Data dosen tidak ditemukan.');
+            return back()->with('error', 'Data dosen tidak ditemukan.');
         }
 
-        $data = [
-            'ruangan' => $request->ruangan,
-            'no_hp' => $request->no_hp,
-        ];
+        $dosen->ruangan = $request->ruangan;
+        $dosen->no_hp   = $request->no_hp;
 
-        // Jika dosen mengupload foto baru
         if ($request->hasFile('foto_profil')) {
-            $foto = $request->file('foto_profil')
-                ->store('foto-dosen','public');
-            $data['foto'] = $foto; // Disimpan ke array data untuk tabel dosen
+
+            if ($dosen->foto && \Storage::disk('public')->exists($dosen->foto)) {
+                \Storage::disk('public')->delete($dosen->foto);
+            }
+
+            $path = $request->file('foto_profil')->store('foto-dosen', 'public');
+            $dosen->foto = $path;
         }
 
-        // Ini akan mengupdate tabel 'dosen' (termasuk kolom foto dan no_hp)
-        $dosen->update($data); 
+        $dosen->save();
 
-        return back()->with('success','Profil diperbarui.');
+        return back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function statusApi()
+    {
+        $dosen = Dosen::select(
+            'id',
+            'nama',
+            'status',
+            'ruangan',
+            'no_hp',
+            'foto',
+            'catatan'
+        )->get();
+
+        return response()->json($dosen);
     }
 }
